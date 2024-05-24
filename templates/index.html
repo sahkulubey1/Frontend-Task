@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Task Tracker</h1>
+        <form action="/add_task" method="POST">
+            <input type="text" name="taskName" placeholder="Enter task name" required>
+            <input type="text" name="taskDesc" placeholder="Enter task description">
+            <input type="date" name="deadline" required>
+            <button type="submit">Add Task</button>
+        </form>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Description</th>
+                    <th>Deadline</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td>{{ task.task }}</td>
+                    <td>{{ task.desc }}</td>
+                    <td>{{ task.deadline }}</td>
+                    <td>
+                        <form action="/remove_task" method="POST" style="display:inline;">
+                            <input type="hidden" name="taskIndex" value="{{ loop.index0 }}">
+                            <button type="submit">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
